@@ -1,0 +1,8 @@
+Information regarding data:
+
+- IO tables downloaded from https://apps.bea.gov//industry/iTables%20Static%20Files/AllTablesIO.zip on May 3, 2019
+
+- KLEMS data downloaded from https://www.bea.gov/data/special-topics/integrated-industry-level-production-account-klems on May 3, 2019
+
+
+https://apps.bea.gov//industry/iTables Static Files/AllTablesIO.zip
