@@ -1,0 +1,39 @@
+% FINDENDS - Finds the indecies that mark the data within the dateRange.
+%
+% Usage:
+%
+% [first, last] = findEnds(tseries, dateRange(optional))
+%
+% Uses system (getDateRange) date range if none is specified.
+
+function [first, last] = findEnds (data, varargin)
+
+%Choose date range.
+if ~isempty(varargin)
+    dateRange = varargin{1};
+else
+    dateRange = getDateRange;
+end
+
+tsStart = data.sd;
+
+%Check starts date.
+if dateRange(1) <tsStart
+    error(['Data in ' data.name, ' begins after start of date range.  Rest date range using setDateRange().'])
+end
+
+
+%Count of Period between tsStart and DateRange(1), DateRange(2)
+yr_diff = floor(dateRange(1)/100) - floor(tsStart/100);
+per_diff = mod(dateRange(1), 100) - mod(tsStart,100);
+first = 1+per_diff+data.freq*yr_diff;
+
+yr_diff = floor(dateRange(2)/100) - floor(tsStart/100) ;
+per_diff = mod(dateRange(2), 100) - mod(tsStart,100);
+last = 1+per_diff+data.freq*yr_diff;
+
+
+%Check end date
+if last > size(data.dat)
+      error(['Data series ', data.name, ' (End Date:' , num2str(index(data.sd,size(data.dat,2)-1,data.freq)),') does not extend to end of date range (End Date:', num2str(dateRange(2)), '.) Reset date range using setDateRange().']);
+end

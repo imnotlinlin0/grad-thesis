@@ -1,0 +1,53 @@
+% M2Q - Convert data to quarterly observations from monthly using arithmetic mean.
+%
+% usage
+%
+% out = MtoQ(data, start_date, options)
+%
+% where 
+% 
+% data  = a matrix of data with monthly observation along the columns
+% start_date = a matlab date number corresponding to the first observation
+%
+% out = quarterly averaged values
+% start = a number with year-quarter format (e.g. 2003Q4 is 200304)
+%
+%
+% IMPORTANT NOTES: Partial quarters will be returned as NaN, as will quarters with
+% any missing values.  Options arguments are not yet defined.
+
+
+
+function [out, start] = M2Q(data, varargin)
+
+if ts_is(data)
+    ts = data;
+    data = ts.dat;
+else
+    error('Input argument must be a timeseries object');
+end
+
+sd = ts.sd;  
+sq = rem(sd,100);  q = sq;  %Start Quarter
+sm = 1 + 3*(sq-1); m = sq; %Start Month
+
+
+ndat = zeros(1, 3*length(ts.dat));
+td = sd;
+
+
+
+
+
+if size(data,1)<size(data,2)
+    data = data';
+end
+
+
+
+
+
+if exist('ts')
+   out = ts_make(out,4,start, ts.name); 
+end
+    

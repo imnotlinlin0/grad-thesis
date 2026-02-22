@@ -1,0 +1,42 @@
+%MTOQ - Convert data to quarterly observations from monthly
+%
+% usage
+%
+% out = MtoQ(data, start_date, options)
+%
+% where 
+% 
+% data  = a matrix of data with monthly observation along the columns
+% start_data = a matlab date number corresponding to the first observation
+%
+% NOTES: Missing values are allowed, altho
+
+
+
+function out = MtoQ(data, start_date, varargin)
+
+if length(varargin) == 0
+    %Default option - assume start_date is a matlab date number
+ 
+    
+    %Start month
+    m_start = str2num(datestr(start_date, 'mm'));
+    start_idx = mod(m_start,3);
+    end_idx = mod(size(data,1)-start_idx+1,3);
+    
+    %Intialize
+    out = zeros(floor((size(data,1)-start_idx+1)/3), size(data,2));
+    
+    %Some fancy indexing
+    for j = 1:size(out,1)
+        out(j,:) = mean(data(3*(j-1)+start_idx:3*(j-1)+start_idx+2,:));
+    end
+    
+    %Append NaN for partial quarters
+    if start_idx ~= 1
+        out = [NaN;out];
+    end
+    if end_idx ~= 0
+        out = [out;NaN];
+    end
+end
